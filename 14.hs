@@ -1,9 +1,19 @@
-answer size = memo_paths size size
+import Data.Word
 
-memo_paths :: Int -> Int -> Int
-memo_paths x y = v x y
-  where v x y = a !! x !! y
-        a = map (\i -> map (paths i) [0..]) [0..]
-        paths 0 _ = 1
-        paths _ 0 = 1
-        paths x y = v (x-1) y + v x (y-1)
+-- answer is longest collatz sequence in numbers 1 -> 1e6
+answer n = snd $ maximum [ ( collatzLen x, x ) | x <- [1..n-1] ]
+
+main = print $ answer 1000000
+
+collatzLen :: Int -> Int
+collatzLen = (map coll [0..] !!)
+  where
+    coll x
+      | x < 2 = x
+      | even x = 1 + collatzLen (x `div` 2)
+      | odd x  = 1 + collatzLen (x*3 + 1)
+
+collatzLen :: Int -> Int
+collatzLen 1 = 1
+collatzLen n | n `mod` 2 == 0 = 1 + ( collatzLen $ n `div` 2 )
+               | otherwise      = 1 + ( collatzLen $ 3*n+1 )
