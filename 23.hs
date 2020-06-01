@@ -1,5 +1,7 @@
 import Extras
 
+-- TODO: optimize
+
 -- answer is the sum of all posi ints which cannot be written as the sum of abundant numbers
 answer = sum [ x | x <- [1..28123], not $ elem x abundantSums ]
 
